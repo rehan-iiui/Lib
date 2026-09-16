@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Go deep Library</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="topbar">
+
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+
+            <div>
+                <h1>Rehan Library</h1>
+                <p>Explore • Discover • Learn</p>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <button class="nav-btn active" data-page="home">
+                Home
+            </button>
+
+            <button class="nav-btn" data-page="categories">
+                Categories
+            </button>
+
+            <button class="nav-btn" data-page="featured">
+                Featured
+            </button>
+
+            <button class="nav-btn" data-page="favorites">
+                ♥ Favorites
+            </button>
+        </nav>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        <!-- ================= HOME PAGE ================= -->
+
+        <section id="homePage" class="page active">
+
+            <!-- HERO -->
+
+            <section class="hero">
+
+                <div class="hero-content">
+
+                    <span class="hero-label">
+                        📖 DIGITAL LIBRARY
+                    </span>
+
+                    <h2>
+                        Discover Your<br>
+                        Next Great Book
+                    </h2>
+
+                    <p>
+                        Explore classics, adventures, science,
+                        history, mysteries and many more worlds
+                        through books.
+                    </p>
+
+                    <button class="hero-button" id="exploreBtn">
+                        Explore Library →
+                    </button>
+
+                </div>
+
+                <div class="hero-books">
+
+                    <div class="floating-book book-one">
+                        📕
+                    </div>
+
+                    <div class="floating-book book-two">
+                        📘
+                    </div>
+
+                    <div class="floating-book book-three">
+                        📗
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SEARCH -->
+
+            <section class="search-section">
+
+                <div class="search-box">
+
+                    <span class="search-icon">🔍</span>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search books, authors or categories..."
+                        autocomplete="off"
+                    >
+
+                    <button id="clearSearch" class="clear-search">
+                        ×
+                    </button>
+
+                </div>
+
+                <div id="searchResults" class="search-results"></div>
+
+            </section>
+
+
+            <!-- CATEGORIES -->
+
+            <section class="library-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="small-label">
+                            BROWSE
+                        </span>
+
+                        <h2>Explore Categories</h2>
+                    </div>
+
+                    <button
+                        class="view-all-btn"
+                        id="viewAllCategories"
+                    >
+                        View All →
+                    </button>
+
+                </div>
+
+
+                <div class="category-grid">
+
+                    <button
+                        class="category-card classics"
+                        data-category="classics"
+                    >
+                        <span class="category-icon">🏛️</span>
+                        <span class="category-name">
+                            Classics
+                        </span>
+                        <span class="category-description">
+                            Timeless stories
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card adventure"
+                        data-category="adventure"
+                    >
+                        <span class="category-icon">🗺️</span>
+                        <span class="category-name">
+                            Adventure
+                        </span>
+                        <span class="category-description">
+                            Journeys & exploration
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card science"
+                        data-category="science"
+                    >
+                        <span class="category-icon">🔬</span>
+                        <span class="category-name">
+                            Science
+                        </span>
+                        <span class="category-description">
+                            Discover how things work
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card sci-fi"
+                        data-category="science-fiction"
+                    >
+                        <span class="category-icon">🚀</span>
+                        <span class="category-name">
+                            Science Fiction
+                        </span>
+                        <span class="category-description">
+                            Future worlds
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card mystery"
+                        data-category="mystery"
+                    >
+                        <span class="category-icon">🔎</span>
+                        <span class="category-name">
+                            Mystery & Detective
+                        </span>
+                        <span class="category-description">
+                            Solve the mystery
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card fantasy"
+                        data-category="fantasy"
+                    >
+                        <span class="category-icon">🏰</span>
+                        <span class="category-name">
+                            Fantasy
+                        </span>
+                        <span class="category-description">
+                            Magical worlds
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card history"
+                        data-category="history"
+                    >
+                        <span class="category-icon">📜</span>
+                        <span class="category-name">
+                            History
+                        </span>
+                        <span class="category-description">
+                            Learn from the past
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card geography"
+                        data-category="geography"
+                    >
+                        <span class="category-icon">🌍</span>
+                        <span class="category-name">
+                            Geography & Travel
+                        </span>
+                        <span class="category-description">
+                            Explore our world
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card children"
+                        data-category="children"
+                    >
+                        <span class="category-icon">👦</span>
+                        <span class="category-name">
+                            Children's Books
+                        </span>
+                        <span class="category-description">
+                            Stories for young readers
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="category-card biography"
+                        data-category="biographies"
+                    >
+                        <span class="category-icon">🧠</span>
+                        <span class="category-name">
+                            Biography & Famous People
+                        </span>
+                        <span class="category-description">
+                            Lives that shaped history
+                        </span>
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- FEATURED BOOKS -->
+
+            <section class="library-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="small-label">
+                            LIBRARY PICKS
+                        </span>
+
+                        <h2>Featured Books</h2>
+                    </div>
+
+                    <button
+                        class="view-all-btn"
+                        id="viewFeatured"
+                    >
+                        View All →
+                    </button>
+
+                </div>
+
+
+                <div id="featuredBooks" class="book-grid">
+
+                    <!-- Books will be inserted by JavaScript -->
+
+                    <div class="book-placeholder">
+                        <div class="placeholder-cover">
+                            📖
+                        </div>
+
+                        <h3>Books Coming Soon</h3>
+
+                        <p>
+                            Our library collection is being prepared.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- LIBRARY INFORMATION -->
+
+            <section class="library-info">
+
+                <div class="info-card">
+
+                    <span class="info-icon">📚</span>
+
+                    <div>
+                        <h3>Growing Collection</h3>
+                        <p>
+                            New books and summaries will be added
+                            to the library category by category.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span class="info-icon">🔍</span>
+
+                    <div>
+                        <h3>Easy to Explore</h3>
+                        <p>
+                            Search for books, authors and categories
+                            from one place.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span class="info-icon">⭐</span>
+
+                    <div>
+                        <h3>Your Favorites</h3>
+                        <p>
+                            Save books you want to read later.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+
+        <!-- ================= CATEGORIES PAGE ================= -->
+
+        <section id="categoriesPage" class="page">
+
+            <div class="page-header">
+
+                <span class="small-label">
+                    LIBRARY
+                </span>
+
+                <h2>All Categories</h2>
+
+                <p>
+                    Choose a category to explore its collection.
+                </p>
+
+            </div>
+
+            <div
+                id="allCategoriesGrid"
+                class="category-grid large-grid"
+            >
+
+                <!-- JavaScript will populate this -->
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= FEATURED PAGE ================= -->
+
+        <section id="featuredPage" class="page">
+
+            <div class="page-header">
+
+                <span class="small-label">
+                    DISCOVER
+                </span>
+
+                <h2>Featured Collection</h2>
+
+                <p>
+                    Books selected for the library's featured collection.
+                </p>
+
+            </div>
+
+            <div
+                id="featuredPageBooks"
+                class="book-grid"
+            >
+
+                <!-- JavaScript will populate this -->
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= FAVORITES PAGE ================= -->
+
+        <section id="favoritesPage" class="page">
+
+            <div class="page-header">
+
+                <span class="small-label">
+                    YOUR LIBRARY
+                </span>
+
+                <h2>Favorite Books</h2>
+
+                <p>
+                    Books you have saved for later.
+                </p>
+
+            </div>
+
+            <div
+                id="favoriteBooks"
+                class="book-grid"
+            >
+
+                <div class="empty-library">
+
+                    <div class="empty-icon">
+                        ♥
+                    </div>
+
+                    <h3>No Favorites Yet</h3>
+
+                    <p>
+                        Open a book and press the heart button
+                        to save it here.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CATEGORY BOOKS PAGE ================= -->
+
+        <section id="categoryBooksPage" class="page">
+
+            <button
+                class="back-button"
+                id="backFromCategory"
+            >
+                ← Back
+            </button>
+
+            <div class="page-header">
+
+                <span
+                    class="category-page-icon"
+                    id="categoryPageIcon"
+                >
+                    📚
+                </span>
+
+                <span
+                    class="small-label"
+                    id="categoryPageLabel"
+                >
+                    CATEGORY
+                </span>
+
+                <h2 id="categoryPageTitle">
+                    Books
+                </h2>
+
+                <p id="categoryPageDescription">
+                    Explore this collection.
+                </p>
+
+            </div>
+
+            <div
+                id="categoryPageBooks"
+                class="book-grid"
+            >
+
+                <!-- JavaScript will populate -->
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= BOOK DETAILS PAGE ================= -->
+
+        <section id="bookPage" class="page">
+
+            <button
+                class="back-button"
+                id="backFromBook"
+            >
+                ← Back to Library
+            </button>
+
+            <article class="book-details">
+
+                <div
+                    class="book-detail-cover"
+                    id="bookDetailCover"
+                >
+                    📖
+                </div>
+
+                <div class="book-detail-content">
+
+                    <span
+                        class="book-detail-category"
+                        id="bookDetailCategory"
+                    >
+                        CATEGORY
+                    </span>
+
+                    <h2 id="bookDetailTitle">
+                        Book Title
+                    </h2>
+
+                    <h3 id="bookDetailAuthor">
+                        Author
+                    </h3>
+
+                    <p
+                        id="bookDetailDescription"
+                        class="book-description"
+                    >
+                        Book description will appear here.
+                    </p>
+
+                    <div class="book-actions">
+
+                        <button
+                            class="primary-button"
+                            id="readBookBtn"
+                        >
+                            📖 Read Summary
+                        </button>
+
+                        <button
+                            class="favorite-button"
+                            id="favoriteBtn"
+                        >
+                            ♡ Add to Favorites
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+
+        <!-- ================= READER PAGE ================= -->
+
+        <section id="readerPage" class="page">
+
+            <button
+                class="back-button"
+                id="backFromReader"
+            >
+                ← Back to Book
+            </button>
+
+            <article class="reader">
+
+                <div class="reader-header">
+
+                    <span
+                        id="readerCategory"
+                        class="small-label"
+                    >
+                        CATEGORY
+                    </span>
+
+                    <h2 id="readerTitle">
+                        Book Summary
+                    </h2>
+
+                    <p id="readerAuthor">
+                        Author
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="readerContent"
+                    class="reader-content"
+                >
+
+                    <!-- Category HTML summary will appear here -->
+
+                </div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-logo">
+            📚 Go Deep Library
+        </div>
+
+        <p>
+            A digital place to explore books, stories and knowledge.
+        </p>
+
+        <div class="footer-line"></div>
+
+        <p class="copyright">
+            © 2026 Rehan Library
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
