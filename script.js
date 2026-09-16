@@ -1473,3 +1473,4 @@ renderFavorites();
 
 showPage("home");
 ```
+console.log("SCRIPT IS WORKING");
