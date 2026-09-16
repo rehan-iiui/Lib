@@ -1,15 +1,14 @@
 /* =========================================================
    GO DEEP LIBRARY - MAIN JAVASCRIPT
    ========================================================= */
-
 const categoryPages = {
-    classics: "./classics/books.html",
-    adventure: "./adventure/books.html",
-    science: "./science/books.html",
-    "science-fiction": "./scifi/books.html",
-    scifi: "./scifi/books.html",
-    mystery: "./detective/books.html",
-    detective: "./detective/books.html"
+    classics: "./books/classics/books.html",
+    adventure: "./books/adventure/books.html",
+    science: "./books/science/books.html",
+    "science-fiction": "./books/scifi/books.html",
+    scifi: "./books/scifi/books.html",
+    mystery: "./books/detective/books.html",
+    detective: "./books/detective/books.html"
 };
 
 const categoryInfo = {
