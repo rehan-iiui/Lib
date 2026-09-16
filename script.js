@@ -1,15 +1,88 @@
 /* =========================================================
-   LIBRARY APP - MAIN JAVASCRIPT
+   GO DEEP LIBRARY - MAIN JAVASCRIPT
    ========================================================= */
 
-/* ================= DATA ================= */
 
-const categories = {
-    adventure: "Adventure",
-    classics: "Classics",
-    science: "Science",
-    scifi: "Sci-Fi",
-    detective: "Detective"
+/* ================= CATEGORY DATA ================= */
+
+const categoryPages = {
+    classics: "classics/books.html",
+    adventure: "adventure/books.html",
+    science: "science/books.html",
+    "science-fiction": "scifi/books.html",
+    scifi: "scifi/books.html",
+    mystery: "detective/books.html",
+    detective: "detective/books.html",
+    fantasy: "fantasy/books.html",
+    history: "history/books.html",
+    geography: "geography/books.html",
+    children: "children/books.html",
+    biographies: "biographies/books.html"
+};
+
+
+/* ================= CATEGORY INFORMATION ================= */
+
+const categoryInfo = {
+    classics: {
+        name: "Classics",
+        icon: "🏛️",
+        description: "Timeless stories"
+    },
+
+    adventure: {
+        name: "Adventure",
+        icon: "🗺️",
+        description: "Journeys & exploration"
+    },
+
+    science: {
+        name: "Science",
+        icon: "🔬",
+        description: "Discover how things work"
+    },
+
+    "science-fiction": {
+        name: "Science Fiction",
+        icon: "🚀",
+        description: "Future worlds"
+    },
+
+    mystery: {
+        name: "Mystery & Detective",
+        icon: "🔎",
+        description: "Solve the mystery"
+    },
+
+    fantasy: {
+        name: "Fantasy",
+        icon: "🏰",
+        description: "Magical worlds"
+    },
+
+    history: {
+        name: "History",
+        icon: "📜",
+        description: "Learn from the past"
+    },
+
+    geography: {
+        name: "Geography & Travel",
+        icon: "🌍",
+        description: "Explore our world"
+    },
+
+    children: {
+        name: "Children's Books",
+        icon: "👦",
+        description: "Stories for young readers"
+    },
+
+    biographies: {
+        name: "Biography & Famous People",
+        icon: "🧠",
+        description: "Lives that shaped history"
+    }
 };
 
 
@@ -19,15 +92,45 @@ function showPage(pageName) {
 
     const pages = document.querySelectorAll(".page");
 
-    pages.forEach(page => {
+    pages.forEach(function(page) {
         page.classList.remove("active");
     });
 
-    const selectedPage = document.getElementById(pageName);
+
+    const pageMap = {
+        home: "homePage",
+        categories: "categoriesPage",
+        featured: "featuredPage",
+        favorites: "favoritesPage",
+        categoryBooks: "categoryBooksPage",
+        book: "bookPage",
+        reader: "readerPage"
+    };
+
+
+    const realPageId = pageMap[pageName] || pageName;
+
+    const selectedPage =
+        document.getElementById(realPageId);
+
 
     if (selectedPage) {
         selectedPage.classList.add("active");
     }
+
+
+    document.querySelectorAll(".nav-btn").forEach(
+        function(button) {
+
+            button.classList.remove("active");
+
+            if (button.dataset.page === pageName) {
+                button.classList.add("active");
+            }
+
+        }
+    );
+
 
     window.scrollTo({
         top: 0,
@@ -36,45 +139,200 @@ function showPage(pageName) {
 }
 
 
-/* ================= CATEGORY OPENING ================= */
+/* ================= NAVIGATION BUTTONS ================= */
+
+function connectNavigation() {
+
+    document.querySelectorAll(".nav-btn").forEach(
+        function(button) {
+
+            button.addEventListener("click", function() {
+
+                const page =
+                    button.dataset.page;
+
+                if (page) {
+                    showPage(page);
+                }
+
+            });
+
+        }
+    );
+}
+
+
+/* ================= OPEN CATEGORY ================= */
 
 function openCategory(category) {
 
-    if (!category) return;
-
-    const categoryName = category.toLowerCase();
-
-    const paths = {
-        adventure: "adventure/books.html",
-        classics: "classics/books.html",
-        science: "science/books.html",
-        scifi: "scifi/books.html",
-        "sci-fi": "scifi/books.html",
-        detective: "detective/books.html"
-    };
-
-    if (paths[categoryName]) {
-        window.location.href = paths[categoryName];
+    if (!category) {
+        return;
     }
+
+
+    const categoryName =
+        String(category).toLowerCase().trim();
+
+
+    if (categoryPages[categoryName]) {
+
+        window.location.href =
+            categoryPages[categoryName];
+
+        return;
+    }
+
+
+    console.warn(
+        "No page found for category:",
+        categoryName
+    );
 }
 
 
-/* ================= HOME BUTTON ================= */
+/* ================= CATEGORY BUTTONS ================= */
 
-function goHome() {
-    window.location.href = "index.html";
+function connectCategoryButtons() {
+
+    document.querySelectorAll(
+        ".category-card"
+    ).forEach(function(button) {
+
+        button.addEventListener("click", function() {
+
+            const category =
+                button.dataset.category;
+
+            openCategory(category);
+
+        });
+
+    });
 }
 
 
-/* ================= BACK BUTTON ================= */
+/* ================= EXPLORE BUTTON ================= */
 
-function goBack() {
+function connectExploreButton() {
 
-    if (document.referrer) {
-        history.back();
-    } else {
-        goHome();
+    const button =
+        document.getElementById("exploreBtn");
+
+    if (!button) {
+        return;
     }
+
+
+    button.addEventListener("click", function() {
+
+        showPage("categories");
+
+    });
+}
+
+
+/* ================= VIEW ALL CATEGORIES ================= */
+
+function connectViewAllCategories() {
+
+    const button =
+        document.getElementById("viewAllCategories");
+
+    if (!button) {
+        return;
+    }
+
+
+    button.addEventListener("click", function() {
+
+        showPage("categories");
+
+    });
+}
+
+
+/* ================= FEATURED BUTTON ================= */
+
+function connectFeaturedButton() {
+
+    const button =
+        document.getElementById("viewFeatured");
+
+    if (!button) {
+        return;
+    }
+
+
+    button.addEventListener("click", function() {
+
+        showPage("featured");
+
+    });
+}
+
+
+/* ================= ALL CATEGORIES PAGE ================= */
+
+function renderAllCategories() {
+
+    const container =
+        document.getElementById("allCategoriesGrid");
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    Object.keys(categoryInfo).forEach(
+        function(category) {
+
+            const info =
+                categoryInfo[category];
+
+
+            const button =
+                document.createElement("button");
+
+
+            button.className =
+                "category-card " + category;
+
+
+            button.dataset.category =
+                category;
+
+
+            button.innerHTML = `
+                <span class="category-icon">
+                    ${info.icon}
+                </span>
+
+                <span class="category-name">
+                    ${info.name}
+                </span>
+
+                <span class="category-description">
+                    ${info.description}
+                </span>
+            `;
+
+
+            button.addEventListener(
+                "click",
+                function() {
+                    openCategory(category);
+                }
+            );
+
+
+            container.appendChild(button);
+
+        }
+    );
 }
 
 
@@ -82,29 +340,137 @@ function goBack() {
 
 function searchBooks() {
 
-    const searchInput =
-        document.getElementById("searchInput") ||
-        document.querySelector('input[type="search"]');
+    const input =
+        document.getElementById("searchInput");
 
-    if (!searchInput) return;
+    const results =
+        document.getElementById("searchResults");
 
-    const query = searchInput.value.trim().toLowerCase();
 
-    const books = document.querySelectorAll(
-        ".book-card, .summary-card, .book"
+    if (!input) {
+        return;
+    }
+
+
+    const query =
+        input.value.trim().toLowerCase();
+
+
+    if (!results) {
+        return;
+    }
+
+
+    if (query === "") {
+
+        results.innerHTML = "";
+
+        return;
+    }
+
+
+    const matchingCategories =
+        Object.keys(categoryInfo).filter(
+            function(category) {
+
+                const info =
+                    categoryInfo[category];
+
+                return (
+                    info.name.toLowerCase().includes(query) ||
+                    info.description.toLowerCase().includes(query) ||
+                    category.includes(query)
+                );
+
+            }
+        );
+
+
+    if (matchingCategories.length === 0) {
+
+        results.innerHTML = `
+            <div class="search-result-empty">
+                No matching categories found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    results.innerHTML = "";
+
+
+    matchingCategories.forEach(
+        function(category) {
+
+            const info =
+                categoryInfo[category];
+
+
+            const result =
+                document.createElement("button");
+
+
+            result.className =
+                "search-result";
+
+
+            result.innerHTML = `
+                <span>
+                    ${info.icon}
+                </span>
+
+                <span>
+                    ${info.name}
+                </span>
+            `;
+
+
+            result.addEventListener(
+                "click",
+                function() {
+                    openCategory(category);
+                }
+            );
+
+
+            results.appendChild(result);
+
+        }
+    );
+}
+
+
+/* ================= SEARCH CONNECTION ================= */
+
+function connectSearch() {
+
+    const input =
+        document.getElementById("searchInput");
+
+
+    if (!input) {
+        return;
+    }
+
+
+    input.addEventListener(
+        "input",
+        searchBooks
     );
 
-    books.forEach(book => {
 
-        const text = book.textContent.toLowerCase();
+    input.addEventListener(
+        "keydown",
+        function(event) {
 
-        if (query === "" || text.includes(query)) {
-            book.style.display = "";
-        } else {
-            book.style.display = "none";
+            if (event.key === "Enter") {
+                searchBooks();
+            }
+
         }
-
-    });
+    );
 }
 
 
@@ -112,21 +478,39 @@ function searchBooks() {
 
 function clearSearch() {
 
-    const searchInput =
-        document.getElementById("searchInput") ||
-        document.querySelector('input[type="search"]');
+    const input =
+        document.getElementById("searchInput");
 
-    if (searchInput) {
-        searchInput.value = "";
+    const results =
+        document.getElementById("searchResults");
+
+
+    if (input) {
+        input.value = "";
     }
 
-    const books = document.querySelectorAll(
-        ".book-card, .summary-card, .book"
-    );
 
-    books.forEach(book => {
-        book.style.display = "";
-    });
+    if (results) {
+        results.innerHTML = "";
+    }
+}
+
+
+function connectClearSearch() {
+
+    const button =
+        document.getElementById("clearSearch");
+
+
+    if (!button) {
+        return;
+    }
+
+
+    button.addEventListener(
+        "click",
+        clearSearch
+    );
 }
 
 
@@ -135,11 +519,17 @@ function clearSearch() {
 function getFavorites() {
 
     try {
+
         return JSON.parse(
-            localStorage.getItem("libraryFavorites") || "[]"
+            localStorage.getItem(
+                "libraryFavorites"
+            ) || "[]"
         );
+
     } catch (error) {
+
         return [];
+
     }
 }
 
@@ -155,15 +545,23 @@ function saveFavorites(favorites) {
 
 function toggleFavorite(bookName) {
 
-    if (!bookName) return;
+    if (!bookName) {
+        return;
+    }
 
-    let favorites = getFavorites();
+
+    let favorites =
+        getFavorites();
+
 
     if (favorites.includes(bookName)) {
 
-        favorites = favorites.filter(
-            book => book !== bookName
-        );
+        favorites =
+            favorites.filter(
+                function(book) {
+                    return book !== bookName;
+                }
+            );
 
     } else {
 
@@ -171,17 +569,10 @@ function toggleFavorite(bookName) {
 
     }
 
+
     saveFavorites(favorites);
 
     renderFavorites();
-
-    updateFavoriteButtons();
-}
-
-
-function isFavorite(bookName) {
-
-    return getFavorites().includes(bookName);
 }
 
 
@@ -190,318 +581,258 @@ function isFavorite(bookName) {
 function renderFavorites() {
 
     const container =
-        document.getElementById("favoritesList") ||
-        document.querySelector(".favorites-list");
+        document.getElementById("favoriteBooks");
 
-    if (!container) return;
 
-    const favorites = getFavorites();
+    if (!container) {
+        return;
+    }
+
+
+    const favorites =
+        getFavorites();
+
 
     if (favorites.length === 0) {
 
         container.innerHTML = `
-            <p class="empty-message">
-                No favorite books yet.
-            </p>
+            <div class="empty-library">
+
+                <div class="empty-icon">
+                    ♥
+                </div>
+
+                <h3>No Favorites Yet</h3>
+
+                <p>
+                    Open a book and press the heart button
+                    to save it here.
+                </p>
+
+            </div>
         `;
 
         return;
     }
 
+
     container.innerHTML = "";
 
-    favorites.forEach(book => {
 
-        const item = document.createElement("div");
+    favorites.forEach(
+        function(book) {
 
-        item.className = "favorite-book";
-
-        item.innerHTML = `
-            <span>${escapeHTML(book)}</span>
-            <button onclick="toggleFavorite('${escapeAttribute(book)}')">
-                ★
-            </button>
-        `;
-
-        container.appendChild(item);
-
-    });
-}
+            const item =
+                document.createElement("div");
 
 
-/* ================= FAVORITE BUTTONS ================= */
+            item.className =
+                "book-card";
 
-function updateFavoriteButtons() {
 
-    const buttons = document.querySelectorAll(
-        "[data-favorite], .favorite-btn"
-    );
+            item.innerHTML = `
+                <h3>${escapeHTML(book)}</h3>
 
-    buttons.forEach(button => {
+                <button
+                    class="favorite-button"
+                    data-remove-favorite="${escapeHTML(book)}"
+                >
+                    Remove
+                </button>
+            `;
 
-        const bookName =
-            button.dataset.favorite ||
-            button.dataset.book;
 
-        if (!bookName) return;
+            container.appendChild(item);
 
-        if (isFavorite(bookName)) {
-            button.classList.add("active");
-            button.textContent = "★";
-        } else {
-            button.classList.remove("active");
-            button.textContent = "☆";
         }
-
-    });
+    );
 }
 
 
-/* ================= FEATURED BOOKS ================= */
+/* ================= FAVORITES PAGE BUTTONS ================= */
+
+function connectFavoriteButtons() {
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            const button =
+                event.target.closest(
+                    "[data-remove-favorite]"
+                );
+
+
+            if (!button) {
+                return;
+            }
+
+
+            const book =
+                button.dataset.removeFavorite;
+
+
+            let favorites =
+                getFavorites();
+
+
+            favorites =
+                favorites.filter(
+                    function(item) {
+                        return item !== book;
+                    }
+                );
+
+
+            saveFavorites(favorites);
+
+            renderFavorites();
+
+        }
+    );
+}
+
+
+/* ================= FEATURED ================= */
 
 function renderFeaturedBooks() {
 
     const container =
-        document.getElementById("featuredBooks") ||
-        document.querySelector(".featured-books");
+        document.getElementById("featuredBooks");
 
-    if (!container) return;
+
+    if (!container) {
+        return;
+    }
+
 
     /*
-       This function intentionally does not replace existing
-       featured-book HTML if you already created it in index.html.
+       The featured placeholder already exists
+       in your HTML, so we leave it untouched.
     */
-
-    updateFavoriteButtons();
 }
 
 
-/* ================= ALL CATEGORIES ================= */
+/* ================= BACK BUTTONS ================= */
 
-function renderAllCategories() {
+function connectBackButtons() {
 
-    /*
-       Your category cards/buttons are already in index.html.
-       This function connects them to the correct category pages.
-    */
-
-    document.querySelectorAll(
-        "[data-category]"
-    ).forEach(element => {
-
-        element.addEventListener("click", function () {
-
-            const category =
-                this.dataset.category;
-
-            openCategory(category);
-
-        });
-
-    });
-}
+    const backCategory =
+        document.getElementById(
+            "backFromCategory"
+        );
 
 
-/* ================= CATEGORY BUTTONS ================= */
+    if (backCategory) {
 
-function connectCategoryButtons() {
-
-    const categoryButtons = {
-
-        adventure: [
-            "adventureBtn",
-            "adventureButton",
-            "exploreAdventure"
-        ],
-
-        classics: [
-            "classicsBtn",
-            "classicsButton",
-            "exploreClassics"
-        ],
-
-        science: [
-            "scienceBtn",
-            "scienceButton",
-            "exploreScience"
-        ],
-
-        scifi: [
-            "scifiBtn",
-            "sciFiBtn",
-            "scifiButton",
-            "exploreSciFi"
-        ],
-
-        detective: [
-            "detectiveBtn",
-            "detectiveButton",
-            "exploreDetective"
-        ]
-
-    };
-
-
-    Object.keys(categoryButtons).forEach(category => {
-
-        categoryButtons[category].forEach(id => {
-
-            const button =
-                document.getElementById(id);
-
-            if (!button) return;
-
-            button.addEventListener(
-                "click",
-                function () {
-                    openCategory(category);
-                }
-            );
-
-        });
-
-    });
-
-}
-
-
-/* ================= EXPLORE BUTTON ================= */
-
-function connectExploreButtons() {
-
-    const exploreButtons = document.querySelectorAll(
-        "#exploreBtn, #exploreButton, .explore-btn, .explore-button"
-    );
-
-    exploreButtons.forEach(button => {
-
-        button.addEventListener("click", function () {
-
-            const firstCategory =
-                document.querySelector("[data-category]");
-
-            if (firstCategory) {
-
-                openCategory(
-                    firstCategory.dataset.category
-                );
-
-            } else {
-
+        backCategory.addEventListener(
+            "click",
+            function() {
                 showPage("categories");
+            }
+        );
+
+    }
+
+
+    const backBook =
+        document.getElementById(
+            "backFromBook"
+        );
+
+
+    if (backBook) {
+
+        backBook.addEventListener(
+            "click",
+            function() {
+                showPage("categoryBooks");
+            }
+        );
+
+    }
+
+
+    const backReader =
+        document.getElementById(
+            "backFromReader"
+        );
+
+
+    if (backReader) {
+
+        backReader.addEventListener(
+            "click",
+            function() {
+                showPage("book");
+            }
+        );
+
+    }
+
+}
+
+
+/* ================= BOOK BUTTONS ================= */
+
+function connectBookButtons() {
+
+    const readButton =
+        document.getElementById(
+            "readBookBtn"
+        );
+
+
+    if (readButton) {
+
+        readButton.addEventListener(
+            "click",
+            function() {
+                showPage("reader");
+            }
+        );
+
+    }
+
+
+    const favoriteButton =
+        document.getElementById(
+            "favoriteBtn"
+        );
+
+
+    if (favoriteButton) {
+
+        favoriteButton.addEventListener(
+            "click",
+            function() {
+
+                const titleElement =
+                    document.getElementById(
+                        "bookDetailTitle"
+                    );
+
+
+                if (!titleElement) {
+                    return;
+                }
+
+
+                const title =
+                    titleElement.textContent.trim();
+
+
+                toggleFavorite(title);
 
             }
+        );
 
-        });
-
-    });
-
-}
-
-
-/* ================= HOME / NAVIGATION BUTTONS ================= */
-
-function connectNavigationButtons() {
-
-    const homeButtons = document.querySelectorAll(
-        "#homeBtn, #homeButton, .home-btn"
-    );
-
-    homeButtons.forEach(button => {
-
-        button.addEventListener("click", goHome);
-
-    });
-
-
-    const backButtons = document.querySelectorAll(
-        "#backBtn, #backButton, .back-btn"
-    );
-
-    backButtons.forEach(button => {
-
-        button.addEventListener("click", goBack);
-
-    });
-
-
-    const favoritesButtons = document.querySelectorAll(
-        "#favoritesBtn, #favoritesButton, .favorites-btn"
-    );
-
-    favoritesButtons.forEach(button => {
-
-        button.addEventListener("click", function () {
-            showPage("favorites");
-            renderFavorites();
-        });
-
-    });
-
-
-    const categoriesButtons = document.querySelectorAll(
-        "#categoriesBtn, #categoriesButton, .categories-btn"
-    );
-
-    categoriesButtons.forEach(button => {
-
-        button.addEventListener("click", function () {
-            showPage("categories");
-        });
-
-    });
+    }
 
 }
 
 
-/* ================= BOOK FAVORITES ================= */
-
-function connectFavoriteButtons() {
-
-    document.addEventListener("click", function (event) {
-
-        const button =
-            event.target.closest(
-                "[data-favorite], .favorite-btn"
-            );
-
-        if (!button) return;
-
-        const bookName =
-            button.dataset.favorite ||
-            button.dataset.book;
-
-        if (!bookName) return;
-
-        toggleFavorite(bookName);
-
-    });
-
-}
-
-
-/* ================= ENTER KEY SEARCH ================= */
-
-function connectSearch() {
-
-    const searchInput =
-        document.getElementById("searchInput") ||
-        document.querySelector('input[type="search"]');
-
-    if (!searchInput) return;
-
-    searchInput.addEventListener("keydown", function (event) {
-
-        if (event.key === "Enter") {
-            searchBooks();
-        }
-
-    });
-
-}
-
-
-/* ================= HTML SECURITY HELPERS ================= */
+/* ================= HTML ESCAPE ================= */
 
 function escapeHTML(text) {
 
@@ -514,25 +845,14 @@ function escapeHTML(text) {
 }
 
 
-function escapeAttribute(text) {
-
-    return String(text)
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'");
-}
-
-
 /* ================= GLOBAL FUNCTIONS ================= */
 
 window.showPage = showPage;
 window.openCategory = openCategory;
-window.goHome = goHome;
-window.goBack = goBack;
 window.searchBooks = searchBooks;
 window.clearSearch = clearSearch;
 window.toggleFavorite = toggleFavorite;
 window.renderFavorites = renderFavorites;
-window.renderFeaturedBooks = renderFeaturedBooks;
 window.renderAllCategories = renderAllCategories;
 
 
@@ -540,28 +860,41 @@ window.renderAllCategories = renderAllCategories;
 
 function initializeLibrary() {
 
-    renderFeaturedBooks();
-
-    renderAllCategories();
-
-    renderFavorites();
+    connectNavigation();
 
     connectCategoryButtons();
 
-    connectExploreButtons();
+    connectExploreButton();
 
-    connectNavigationButtons();
+    connectViewAllCategories();
 
-    connectFavoriteButtons();
+    connectFeaturedButton();
 
     connectSearch();
 
-    updateFavoriteButtons();
+    connectClearSearch();
 
+    connectBackButtons();
+
+    connectBookButtons();
+
+    connectFavoriteButtons();
+
+    renderAllCategories();
+
+    renderFeaturedBooks();
+
+    renderFavorites();
+
+    showPage("home");
+
+    console.log(
+        "Go Deep Library loaded successfully."
+    );
 }
 
 
-/* ================= START APP ================= */
+/* ================= START ================= */
 
 if (document.readyState === "loading") {
 
