@@ -2,26 +2,15 @@
    GO DEEP LIBRARY - MAIN JAVASCRIPT
    ========================================================= */
 
-
-/* ================= CATEGORY DATA ================= */
-
 const categoryPages = {
-    classics: "classics/books.html",
-    adventure: "adventure/books.html",
-    science: "science/books.html",
-    "science-fiction": "scifi/books.html",
-    scifi: "scifi/books.html",
-    mystery: "detective/books.html",
-    detective: "detective/books.html",
-    fantasy: "fantasy/books.html",
-    history: "history/books.html",
-    geography: "geography/books.html",
-    children: "children/books.html",
-    biographies: "biographies/books.html"
+    classics: "./classics/books.html",
+    adventure: "./adventure/books.html",
+    science: "./science/books.html",
+    "science-fiction": "./scifi/books.html",
+    scifi: "./scifi/books.html",
+    mystery: "./detective/books.html",
+    detective: "./detective/books.html"
 };
-
-
-/* ================= CATEGORY INFORMATION ================= */
 
 const categoryInfo = {
     classics: {
@@ -33,7 +22,7 @@ const categoryInfo = {
     adventure: {
         name: "Adventure",
         icon: "🗺️",
-        description: "Journeys & exploration"
+        description: "Journeys and exploration"
     },
 
     science: {
@@ -52,41 +41,13 @@ const categoryInfo = {
         name: "Mystery & Detective",
         icon: "🔎",
         description: "Solve the mystery"
-    },
-
-    fantasy: {
-        name: "Fantasy",
-        icon: "🏰",
-        description: "Magical worlds"
-    },
-
-    history: {
-        name: "History",
-        icon: "📜",
-        description: "Learn from the past"
-    },
-
-    geography: {
-        name: "Geography & Travel",
-        icon: "🌍",
-        description: "Explore our world"
-    },
-
-    children: {
-        name: "Children's Books",
-        icon: "👦",
-        description: "Stories for young readers"
-    },
-
-    biographies: {
-        name: "Biography & Famous People",
-        icon: "🧠",
-        description: "Lives that shaped history"
     }
 };
 
 
-/* ================= PAGE NAVIGATION ================= */
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
 
 function showPage(pageName) {
 
@@ -96,41 +57,33 @@ function showPage(pageName) {
         page.classList.remove("active");
     });
 
-
     const pageMap = {
         home: "homePage",
         categories: "categoriesPage",
         featured: "featuredPage",
-        favorites: "favoritesPage",
-        categoryBooks: "categoryBooksPage",
-        book: "bookPage",
-        reader: "readerPage"
+        favorites: "favoritesPage"
     };
 
+    const pageId = pageMap[pageName];
 
-    const realPageId = pageMap[pageName] || pageName;
+    if (pageId) {
 
-    const selectedPage =
-        document.getElementById(realPageId);
+        const selectedPage = document.getElementById(pageId);
 
-
-    if (selectedPage) {
-        selectedPage.classList.add("active");
+        if (selectedPage) {
+            selectedPage.classList.add("active");
+        }
     }
 
+    document.querySelectorAll(".nav-btn").forEach(function(button) {
 
-    document.querySelectorAll(".nav-btn").forEach(
-        function(button) {
+        button.classList.remove("active");
 
-            button.classList.remove("active");
-
-            if (button.dataset.page === pageName) {
-                button.classList.add("active");
-            }
-
+        if (button.dataset.page === pageName) {
+            button.classList.add("active");
         }
-    );
 
+    });
 
     window.scrollTo({
         top: 0,
@@ -139,72 +92,21 @@ function showPage(pageName) {
 }
 
 
-/* ================= NAVIGATION BUTTONS ================= */
+/* =========================================================
+   NAVIGATION BUTTONS
+   ========================================================= */
 
 function connectNavigation() {
 
-    document.querySelectorAll(".nav-btn").forEach(
-        function(button) {
-
-            button.addEventListener("click", function() {
-
-                const page =
-                    button.dataset.page;
-
-                if (page) {
-                    showPage(page);
-                }
-
-            });
-
-        }
-    );
-}
-
-
-/* ================= OPEN CATEGORY ================= */
-
-function openCategory(category) {
-
-    if (!category) {
-        return;
-    }
-
-
-    const categoryName =
-        String(category).toLowerCase().trim();
-
-
-    if (categoryPages[categoryName]) {
-
-        window.location.href =
-            categoryPages[categoryName];
-
-        return;
-    }
-
-
-    console.warn(
-        "No page found for category:",
-        categoryName
-    );
-}
-
-
-/* ================= CATEGORY BUTTONS ================= */
-
-function connectCategoryButtons() {
-
-    document.querySelectorAll(
-        ".category-card"
-    ).forEach(function(button) {
+    document.querySelectorAll(".nav-btn").forEach(function(button) {
 
         button.addEventListener("click", function() {
 
-            const category =
-                button.dataset.category;
+            const page = button.dataset.page;
 
-            openCategory(category);
+            if (page) {
+                showPage(page);
+            }
 
         });
 
@@ -212,17 +114,73 @@ function connectCategoryButtons() {
 }
 
 
-/* ================= EXPLORE BUTTON ================= */
+/* =========================================================
+   OPEN CATEGORY
+   ========================================================= */
+
+function openCategory(category) {
+
+    if (!category) return;
+
+    const categoryName = String(category)
+        .toLowerCase()
+        .trim();
+
+    const page = categoryPages[categoryName];
+
+    if (!page) {
+
+        console.warn(
+            "No books.html exists yet for category:",
+            categoryName
+        );
+
+        return;
+    }
+
+    /*
+       Use a clean relative URL.
+       This prevents incorrect paths such as:
+       /science-fiction/books.html
+       when the real folder is:
+       /scifi/books.html
+    */
+
+    window.location.href = page;
+}
+
+
+/* =========================================================
+   CATEGORY CARDS
+   ========================================================= */
+
+function connectCategoryButtons() {
+
+    document.querySelectorAll(".category-card")
+        .forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                openCategory(
+                    button.dataset.category
+                );
+
+            });
+
+        });
+}
+
+
+/* =========================================================
+   EXPLORE
+   ========================================================= */
 
 function connectExploreButton() {
 
     const button =
         document.getElementById("exploreBtn");
 
-    if (!button) {
-        return;
-    }
-
+    if (!button) return;
 
     button.addEventListener("click", function() {
 
@@ -232,17 +190,16 @@ function connectExploreButton() {
 }
 
 
-/* ================= VIEW ALL CATEGORIES ================= */
+/* =========================================================
+   VIEW ALL CATEGORIES
+   ========================================================= */
 
 function connectViewAllCategories() {
 
     const button =
         document.getElementById("viewAllCategories");
 
-    if (!button) {
-        return;
-    }
-
+    if (!button) return;
 
     button.addEventListener("click", function() {
 
@@ -252,17 +209,16 @@ function connectViewAllCategories() {
 }
 
 
-/* ================= FEATURED BUTTON ================= */
+/* =========================================================
+   VIEW FEATURED
+   ========================================================= */
 
 function connectFeaturedButton() {
 
     const button =
         document.getElementById("viewFeatured");
 
-    if (!button) {
-        return;
-    }
-
+    if (!button) return;
 
     button.addEventListener("click", function() {
 
@@ -272,71 +228,62 @@ function connectFeaturedButton() {
 }
 
 
-/* ================= ALL CATEGORIES PAGE ================= */
+/* =========================================================
+   CREATE ALL CATEGORY CARDS
+   ========================================================= */
 
 function renderAllCategories() {
 
     const container =
         document.getElementById("allCategoriesGrid");
 
-    if (!container) {
-        return;
-    }
-
+    if (!container) return;
 
     container.innerHTML = "";
 
+    Object.keys(categoryInfo).forEach(function(category) {
 
-    Object.keys(categoryInfo).forEach(
-        function(category) {
+        const info = categoryInfo[category];
 
-            const info =
-                categoryInfo[category];
+        const button =
+            document.createElement("button");
 
+        button.className =
+            "category-card " + category;
 
-            const button =
-                document.createElement("button");
+        button.dataset.category =
+            category;
 
+        button.innerHTML = `
+            <span class="category-icon">
+                ${info.icon}
+            </span>
 
-            button.className =
-                "category-card " + category;
+            <span class="category-name">
+                ${info.name}
+            </span>
 
+            <span class="category-description">
+                ${info.description}
+            </span>
+        `;
 
-            button.dataset.category =
-                category;
+        button.addEventListener(
+            "click",
+            function() {
+                openCategory(category);
+            }
+        );
 
+        container.appendChild(button);
 
-            button.innerHTML = `
-                <span class="category-icon">
-                    ${info.icon}
-                </span>
-
-                <span class="category-name">
-                    ${info.name}
-                </span>
-
-                <span class="category-description">
-                    ${info.description}
-                </span>
-            `;
-
-
-            button.addEventListener(
-                "click",
-                function() {
-                    openCategory(category);
-                }
-            );
-
-
-            container.appendChild(button);
-
-        }
-    );
+    });
 }
 
 
-/* ================= SEARCH ================= */
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
 function searchBooks() {
 
@@ -346,20 +293,10 @@ function searchBooks() {
     const results =
         document.getElementById("searchResults");
 
-
-    if (!input) {
-        return;
-    }
-
+    if (!input || !results) return;
 
     const query =
         input.value.trim().toLowerCase();
-
-
-    if (!results) {
-        return;
-    }
-
 
     if (query === "") {
 
@@ -368,25 +305,34 @@ function searchBooks() {
         return;
     }
 
-
-    const matchingCategories =
-        Object.keys(categoryInfo).filter(
-            function(category) {
+    const matches =
+        Object.keys(categoryInfo)
+            .filter(function(category) {
 
                 const info =
                     categoryInfo[category];
 
                 return (
-                    info.name.toLowerCase().includes(query) ||
-                    info.description.toLowerCase().includes(query) ||
+                    info.name
+                        .toLowerCase()
+                        .includes(query)
+
+                    ||
+
+                    info.description
+                        .toLowerCase()
+                        .includes(query)
+
+                    ||
+
                     category.includes(query)
                 );
 
-            }
-        );
+            });
 
+    results.innerHTML = "";
 
-    if (matchingCategories.length === 0) {
+    if (matches.length === 0) {
 
         results.innerHTML = `
             <div class="search-result-empty">
@@ -397,69 +343,46 @@ function searchBooks() {
         return;
     }
 
+    matches.forEach(function(category) {
 
-    results.innerHTML = "";
+        const info =
+            categoryInfo[category];
 
+        const result =
+            document.createElement("button");
 
-    matchingCategories.forEach(
-        function(category) {
+        result.className =
+            "search-result";
 
-            const info =
-                categoryInfo[category];
+        result.innerHTML = `
+            <span>${info.icon}</span>
+            <span>${info.name}</span>
+        `;
 
+        result.addEventListener(
+            "click",
+            function() {
+                openCategory(category);
+            }
+        );
 
-            const result =
-                document.createElement("button");
+        results.appendChild(result);
 
-
-            result.className =
-                "search-result";
-
-
-            result.innerHTML = `
-                <span>
-                    ${info.icon}
-                </span>
-
-                <span>
-                    ${info.name}
-                </span>
-            `;
-
-
-            result.addEventListener(
-                "click",
-                function() {
-                    openCategory(category);
-                }
-            );
-
-
-            results.appendChild(result);
-
-        }
-    );
+    });
 }
 
-
-/* ================= SEARCH CONNECTION ================= */
 
 function connectSearch() {
 
     const input =
         document.getElementById("searchInput");
 
-
-    if (!input) {
-        return;
-    }
-
+    if (!input) return;
 
     input.addEventListener(
         "input",
         searchBooks
     );
-
 
     input.addEventListener(
         "keydown",
@@ -474,47 +397,43 @@ function connectSearch() {
 }
 
 
-/* ================= CLEAR SEARCH ================= */
-
-function clearSearch() {
-
-    const input =
-        document.getElementById("searchInput");
-
-    const results =
-        document.getElementById("searchResults");
-
-
-    if (input) {
-        input.value = "";
-    }
-
-
-    if (results) {
-        results.innerHTML = "";
-    }
-}
-
+/* =========================================================
+   CLEAR SEARCH
+   ========================================================= */
 
 function connectClearSearch() {
 
     const button =
         document.getElementById("clearSearch");
 
-
-    if (!button) {
-        return;
-    }
-
+    if (!button) return;
 
     button.addEventListener(
         "click",
-        clearSearch
+        function() {
+
+            const input =
+                document.getElementById("searchInput");
+
+            const results =
+                document.getElementById("searchResults");
+
+            if (input) {
+                input.value = "";
+            }
+
+            if (results) {
+                results.innerHTML = "";
+            }
+
+        }
     );
 }
 
 
-/* ================= FAVORITES ================= */
+/* =========================================================
+   FAVORITES
+   ========================================================= */
 
 function getFavorites() {
 
@@ -545,23 +464,17 @@ function saveFavorites(favorites) {
 
 function toggleFavorite(bookName) {
 
-    if (!bookName) {
-        return;
-    }
-
+    if (!bookName) return;
 
     let favorites =
         getFavorites();
 
-
     if (favorites.includes(bookName)) {
 
         favorites =
-            favorites.filter(
-                function(book) {
-                    return book !== bookName;
-                }
-            );
+            favorites.filter(function(book) {
+                return book !== bookName;
+            });
 
     } else {
 
@@ -569,29 +482,21 @@ function toggleFavorite(bookName) {
 
     }
 
-
     saveFavorites(favorites);
 
     renderFavorites();
 }
 
 
-/* ================= RENDER FAVORITES ================= */
-
 function renderFavorites() {
 
     const container =
         document.getElementById("favoriteBooks");
 
-
-    if (!container) {
-        return;
-    }
-
+    if (!container) return;
 
     const favorites =
         getFavorites();
-
 
     if (favorites.length === 0) {
 
@@ -602,11 +507,13 @@ function renderFavorites() {
                     ♥
                 </div>
 
-                <h3>No Favorites Yet</h3>
+                <h3>
+                    No Favorites Yet
+                </h3>
 
                 <p>
-                    Open a book and press the heart button
-                    to save it here.
+                    Open a book and press the heart
+                    button to save it here.
                 </p>
 
             </div>
@@ -615,41 +522,35 @@ function renderFavorites() {
         return;
     }
 
-
     container.innerHTML = "";
 
+    favorites.forEach(function(book) {
 
-    favorites.forEach(
-        function(book) {
+        const item =
+            document.createElement("div");
 
-            const item =
-                document.createElement("div");
+        item.className =
+            "book-card";
 
+        item.innerHTML = `
+            <h3>
+                ${escapeHTML(book)}
+            </h3>
 
-            item.className =
-                "book-card";
+            <button
+                class="favorite-button"
+                data-remove-favorite="${escapeHTML(book)}">
 
+                Remove
 
-            item.innerHTML = `
-                <h3>${escapeHTML(book)}</h3>
+            </button>
+        `;
 
-                <button
-                    class="favorite-button"
-                    data-remove-favorite="${escapeHTML(book)}"
-                >
-                    Remove
-                </button>
-            `;
+        container.appendChild(item);
 
-
-            container.appendChild(item);
-
-        }
-    );
+    });
 }
 
-
-/* ================= FAVORITES PAGE BUTTONS ================= */
 
 function connectFavoriteButtons() {
 
@@ -662,27 +563,18 @@ function connectFavoriteButtons() {
                     "[data-remove-favorite]"
                 );
 
-
-            if (!button) {
-                return;
-            }
-
+            if (!button) return;
 
             const book =
                 button.dataset.removeFavorite;
 
-
             let favorites =
                 getFavorites();
 
-
             favorites =
-                favorites.filter(
-                    function(item) {
-                        return item !== book;
-                    }
-                );
-
+                favorites.filter(function(item) {
+                    return item !== book;
+                });
 
             saveFavorites(favorites);
 
@@ -693,170 +585,44 @@ function connectFavoriteButtons() {
 }
 
 
-/* ================= FEATURED ================= */
+/* =========================================================
+   FEATURED
+   ========================================================= */
 
 function renderFeaturedBooks() {
 
     const container =
         document.getElementById("featuredBooks");
 
-
-    if (!container) {
-        return;
-    }
-
-
-    /*
-       The featured placeholder already exists
-       in your HTML, so we leave it untouched.
-    */
-}
-
-
-/* ================= BACK BUTTONS ================= */
-
-function connectBackButtons() {
-
-    const backCategory =
-        document.getElementById(
-            "backFromCategory"
-        );
-
-
-    if (backCategory) {
-
-        backCategory.addEventListener(
-            "click",
-            function() {
-                showPage("categories");
-            }
-        );
-
-    }
-
-
-    const backBook =
-        document.getElementById(
-            "backFromBook"
-        );
-
-
-    if (backBook) {
-
-        backBook.addEventListener(
-            "click",
-            function() {
-                showPage("categoryBooks");
-            }
-        );
-
-    }
-
-
-    const backReader =
-        document.getElementById(
-            "backFromReader"
-        );
-
-
-    if (backReader) {
-
-        backReader.addEventListener(
-            "click",
-            function() {
-                showPage("book");
-            }
-        );
-
-    }
+    if (!container) return;
 
 }
 
 
-/* ================= BOOK BUTTONS ================= */
-
-function connectBookButtons() {
-
-    const readButton =
-        document.getElementById(
-            "readBookBtn"
-        );
-
-
-    if (readButton) {
-
-        readButton.addEventListener(
-            "click",
-            function() {
-                showPage("reader");
-            }
-        );
-
-    }
-
-
-    const favoriteButton =
-        document.getElementById(
-            "favoriteBtn"
-        );
-
-
-    if (favoriteButton) {
-
-        favoriteButton.addEventListener(
-            "click",
-            function() {
-
-                const titleElement =
-                    document.getElementById(
-                        "bookDetailTitle"
-                    );
-
-
-                if (!titleElement) {
-                    return;
-                }
-
-
-                const title =
-                    titleElement.textContent.trim();
-
-
-                toggleFavorite(title);
-
-            }
-        );
-
-    }
-
-}
-
-
-/* ================= HTML ESCAPE ================= */
+/* =========================================================
+   HTML SECURITY
+   ========================================================= */
 
 function escapeHTML(text) {
 
     return String(text)
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#039;");
+
 }
 
 
-/* ================= GLOBAL FUNCTIONS ================= */
-
-window.showPage = showPage;
-window.openCategory = openCategory;
-window.searchBooks = searchBooks;
-window.clearSearch = clearSearch;
-window.toggleFavorite = toggleFavorite;
-window.renderFavorites = renderFavorites;
-window.renderAllCategories = renderAllCategories;
-
-
-/* ================= INITIALIZE ================= */
+/* =========================================================
+   START LIBRARY
+   ========================================================= */
 
 function initializeLibrary() {
 
@@ -874,12 +640,6 @@ function initializeLibrary() {
 
     connectClearSearch();
 
-    connectBackButtons();
-
-    connectBookButtons();
-
-    connectFavoriteButtons();
-
     renderAllCategories();
 
     renderFeaturedBooks();
@@ -894,7 +654,9 @@ function initializeLibrary() {
 }
 
 
-/* ================= START ================= */
+/* =========================================================
+   START
+   ========================================================= */
 
 if (document.readyState === "loading") {
 
